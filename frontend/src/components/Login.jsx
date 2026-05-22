@@ -7,7 +7,7 @@ export default function Login() {
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
   
-      const response = await fetch( 'http://localhost:8080/login',
+      const response = await fetch( 'http://localhost:5050/api/auth/login',
         {
           method: 'POST',
           credentials: 'include',
