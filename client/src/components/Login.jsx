@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 export default function Login() {
+    const navigate = useNavigate();
 
     async function login(event) {
       event.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
   
-      const response = await fetch( 'http://localhost:5000/login',
+      const response = await fetch( 'http://localhost:8080/login',
         {
           method: 'POST',
           credentials: 'include',
@@ -20,7 +22,7 @@ export default function Login() {
       const data = await response.json();
   
       if (data.success) {
-        window.location.href = '/home';
+        navigate("/home");
       } else {
         alert('Login Failed');
       }
