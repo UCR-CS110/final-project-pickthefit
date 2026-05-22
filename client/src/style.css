@@ -1,0 +1,77 @@
+/* Reset default spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Center the page */
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e56b94;
+  }
+  
+  /* Login container */
+  .login_box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+  }
+  
+  /* Title */
+  h1 {
+    margin-bottom: 20px;
+    font-family: "Playfair Display", serif;
+    /* font-family: "Cormorant Garamond", serif; */
+
+  }
+  
+  /* Inputs */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #e56b94;
+    border-radius: 6px;
+    font-family: "Cormorant Garamond", serif;
+
+  }
+  
+  /* Button */
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #e56b94;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+  }
+  
+  button:hover {
+    background-color: #782a59;
+  }
+  
+  /* Link */
+  a {
+    display: block;
+    margin-top: 15px;
+    color: #e56b94;
+    text-decoration: none;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
