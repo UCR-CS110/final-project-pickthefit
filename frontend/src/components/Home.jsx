@@ -6,6 +6,7 @@ export default function Home() {
     const [panelOpen, setPanelOpen] = useState(false);
     const [panelType, setPanelType] = useState("");
 
+    const user = JSON.parse(localStorage.getItem("user"));
     const followers = ["nimrah", "doha", "noor", "FBI", "noora","zanah", "labubu", "igloo"];
     const following = ["zanah", "labubu", "igloo", "doha", "noor", "FBI",];
     
@@ -16,7 +17,7 @@ export default function Home() {
           <div className="profile-pic"></div>
   
           <div className="profile-info">
-            <h1>Random_username</h1>
+            <h1>{user.username}</h1>
   
             <div className="stats">
                 <div
