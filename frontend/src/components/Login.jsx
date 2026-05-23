@@ -22,6 +22,7 @@ export default function Login() {
       const data = await response.json();
   
       if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.user));
         navigate("/home");
       } else {
         alert('Login Failed');
