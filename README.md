@@ -26,3 +26,11 @@ A fashion application where users can manage their personalized digital closet.
 - MongoDB + Mongoose
 - bcrypt 
 - CORS
+
+## Deployment steps
+1. git clone repository
+2. navigate to backend directory; run npm install
+3. run: npm run dev
+4. navigate to frontend directory; run npm install
+5. run: npm run dev
+6. open the local host link
