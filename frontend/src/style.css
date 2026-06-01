@@ -182,3 +182,101 @@
   .list {
     margin-top: 10px;
   }
+
+
+  /* closet  */
+  .closet-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+
+.closet-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.category-section {
+    margin-bottom: 50px;
+}
+
+.category-title {
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.clothing-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.clothing-card {
+    width: 160px;
+    text-align: center;
+}
+
+.clothing-image {
+    width: 160px;
+    height: 200px;
+    background-color: #e5e5e5;
+    border-radius: 12px;
+}
+
+.upload-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.upload-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.4);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upload-modal {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+
+    width: 400px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.upload-modal input,
+.upload-modal textarea,
+.upload-modal select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.upload-modal textarea {
+    min-height: 100px;
+    resize: none;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
