@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Closet() {
     const [showUpload, setShowUpload] = useState(false);
     const [clothes, setClothes] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [isCreatingOutfit, setIsCreatingOutfit] = useState(false);
+    const [selectedOutfitItems, setSelectedOutfitItems] = useState([]);
 
+    const navigate = useNavigate();
+    const location = useLocation();
     // item upload form
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -38,6 +44,17 @@ export default function Closet() {
     useEffect(() => {
         fetchClothes();
     }, []);
+    useEffect(() => {
+        const isEditMode = location.state?.editMode === true;
+    
+        if (isEditMode) {
+            const saved =
+                JSON.parse(localStorage.getItem("pendingOutfit")) || [];
+            setSelectedOutfitItems(saved);
+        } else {
+            setSelectedOutfitItems([]); // IMPORTANT: always start empty in create mode
+        }
+    }, [location.state]);
 
     // save items
     const handleSave = async () => {
@@ -139,33 +156,64 @@ export default function Closet() {
                             )
                             .map((item) => (
                                 <div
-                                    key={item._id}
-                                    className="clothing-card"
-                                >
-                                    {/* IMAGE CLICK */}
-                                    {item.imageUrl ? (
-                                        <img
-                                            src={item.imageUrl}
-                                            alt={item.name}
-                                            className="clothing-image"
-                                            onClick={() =>
-                                                setSelectedItem(item)
+                                key={item._id}
+                                className={`clothing-card ${
+                                    selectedOutfitItems.find((i) => i._id === item._id)
+                                        ? "selected"
+                                        : ""
+                                }`}
+                                onClick={() => {
+                                    if (!isCreatingOutfit) {
+                                        setSelectedItem(item);
+                                        return;
+                                    }
+                                
+                                    const isEditMode = location?.state?.editMode === true;                                
+                                    // 🟡 CREATE MODE
+                                    if (!isEditMode) {
+                                        setSelectedOutfitItems((prev) => {
+                                            const exists = prev.find((i) => i._id === item._id);
+                                
+                                            let updated;
+                                
+                                            if (exists) {
+                                                updated = prev.filter((i) => i._id !== item._id);
+                                            } else {
+                                                updated = [
+                                                    ...prev.filter((i) => i.category !== item.category),
+                                                    item
+                                                ];
                                             }
-                                            style={{
-                                                cursor: "pointer"
-                                            }}
-                                        />
-                                    ) : (
-                                        <div
-                                            className="clothing-image"
-                                            onClick={() =>
-                                                setSelectedItem(item)
-                                            }
-                                            style={{
-                                                cursor: "pointer"
-                                            }}
-                                        />
-                                    )}
+                                
+                                            return updated;
+                                        });
+                                
+                                        return;
+                                    }
+                                
+                                    // 🔵 EDIT MODE
+                                    const updated = [
+                                        ...selectedOutfitItems.filter((i) => i.category !== item.category),
+                                        item
+                                    ];
+                                
+                                    setSelectedOutfitItems(updated);
+                                    localStorage.setItem("pendingOutfit", JSON.stringify(updated));
+                                
+                                    navigate("/outfit");
+                                }}
+                                style={{ cursor: "pointer" }}
+                            >
+                                {/* IMAGE */}
+                                {item.imageUrl ? (
+                                    <img
+                                        src={item.imageUrl}
+                                        alt={item.name}
+                                        className="clothing-image"
+                                    />
+                                ) : (
+                                    <div className="clothing-image" />
+                                )}
 
                                     <p>{item.name}</p>
                                 </div>
@@ -181,6 +229,18 @@ export default function Closet() {
                     onClick={() => setShowUpload(true)}
                 >
                     Upload More Clothes
+                </button>
+
+                <button
+                className="upload-button"
+                onClick={() => {setIsCreatingOutfit(true); 
+                    setSelectedOutfitItems([]); // IMPORTANT: start fresh
+                    setSelectedItem(null);
+                }}
+
+                // style={{ marginTop: "10px", backgroundColor: "#333" }}
+                >
+                    Create Outfit
                 </button>
             </div>
 
@@ -297,6 +357,39 @@ export default function Closet() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {isCreatingOutfit && (
+            <div className="upload-section">
+                <button
+                className="upload-button"
+                onClick={() => {
+                    const outfit = selectedOutfitItems;
+                
+                    localStorage.setItem(
+                        "pendingOutfit",
+                        JSON.stringify(outfit)
+                    );
+                
+                    console.log("SAVED OUTFIT:", outfit);
+                
+                    navigate("/outfit");
+                }}
+                >
+                Done
+                </button>
+
+                <button
+                    className="upload-button"
+                    // style={{ backgroundColor: "rgb(128, 6, 61)" }}
+                    onClick={() => {
+                        setIsCreatingOutfit(false);
+                        setSelectedOutfitItems([]);
+                    }}
+                >
+                    Cancel
+                </button>
+            </div>
             )}
         </div>
     );

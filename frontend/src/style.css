@@ -280,4 +280,50 @@
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
+    font-family: "Cormorant Garamond", serif;
+}
+
+.selected {
+  border: 2px solid #e56b94;
+  transform: scale(1.03);
+}
+
+.mannequin {
+  width: 300px;
+  height: 500px;
+  margin: auto;
+  position: relative;
+  background: url("/mannequin.png") no-repeat center;
+  background-size: contain;
+}
+
+.top-layer,
+.bottom-layer,
+.shoe-layer {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.top-layer {
+  top: 80px;
+}
+
+.bottom-layer {
+  top: 220px;
+}
+
+.shoe-layer {
+  bottom: 40px;
+}
+
+.mannequin img {
+  width: 120px;
+}
+
+.outfit-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px 40px;
 }
