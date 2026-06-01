@@ -187,7 +187,7 @@ export default function Closet() {
             {/* upload */}
             {showUpload && (
                 <div
-                    className="overlay"
+                    className="modal-overlay"
                     onClick={() => setShowUpload(false)}
                 >
                     <div
@@ -257,7 +257,7 @@ export default function Closet() {
             {/* delete popup */}
             {selectedItem && (
                 <div
-                    className="overlay"
+                    className="modal-overlay"
                     onClick={() => setSelectedItem(null)}
                 >
                     <div

@@ -33,14 +33,16 @@ export default function Signup() {
   }
 
   return (
-    <div className="login_box">
-      <h1>Signup</h1>
+    <div className="login_page">
+      <div className="login_box">
+        <h1>Signup</h1>
 
-      <form onSubmit={signup}>
-        <input id="username" placeholder="Username" />
-        <input id="password" type="password" placeholder="Password" />
-        <button>Signup</button>
-      </form>
+        <form onSubmit={signup}>
+          <input id="username" placeholder="Username" />
+          <input id="password" type="password" placeholder="Password" />
+          <button>Signup</button>
+        </form>
+      </div>
     </div>
   );
 }

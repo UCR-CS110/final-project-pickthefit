@@ -30,16 +30,18 @@ export default function Login() {
     }
   
     return (
-      <div className = "login_box">
-          <h1>Welcome Back!</h1>
-          <form onSubmit={login}>
-              <input id="username" placeholder="Username" />
-              <input id="password" type="password" placeholder="Password"/>
-              <button> Login </button>
-        </form>
-        <br />
-  
-        <a href="/signup">   Signup </a>
+      <div className = "login_page">
+        <div className = "login_box">
+            <h1>Welcome Back!</h1>
+            <form onSubmit={login}>
+                <input id="username" placeholder="Username" />
+                <input id="password" type="password" placeholder="Password"/>
+                <button> Login </button>
+          </form>
+          <br />
+    
+          <a href="/signup">   Signup </a>
+        </div>
       </div>
     );
   }

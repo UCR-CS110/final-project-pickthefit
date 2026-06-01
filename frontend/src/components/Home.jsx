@@ -67,7 +67,7 @@ export default function Home() {
         </div>
 
         {panelOpen && (
-            <div className="overlay" onClick={() => setPanelOpen(false)}>
+            <div className="home-overlay" onClick={() => setPanelOpen(false)}>
                 <div className="sidebar" onClick={(e) => e.stopPropagation()}>
                 <h2>
                     {panelType === "followers" ? "Followers" : "Following"}
