@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import auth from "./routes/auth.js";
+import clothesRoutes from "./routes/clothesRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -14,6 +15,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use("/api/auth", auth);
+app.use("/api/clothes", clothesRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("Pick The Fit API Running");
