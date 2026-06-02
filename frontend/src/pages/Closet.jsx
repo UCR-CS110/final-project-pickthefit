@@ -51,8 +51,10 @@ export default function Closet() {
             const saved =
                 JSON.parse(localStorage.getItem("pendingOutfit")) || [];
             setSelectedOutfitItems(saved);
+            setIsCreatingOutfit(true);
         } else {
-            setSelectedOutfitItems([]); // IMPORTANT: always start empty in create mode
+            setSelectedOutfitItems([]); // IMPORTANT: no auto selection in create mode
+            setIsCreatingOutfit(false);
         }
     }, [location.state]);
 
@@ -138,8 +140,15 @@ export default function Closet() {
 
     return (
         <div className="closet-container">
+            <div>
+                <button className="back-button"
+                    onClick={() => navigate("/home")}
+                >
+                Back to Home
+                </button>
+            </div>
             <h1 className="closet-title">My Closet</h1>
-
+            
             {/* clothes for each category */}
             {categories.map((categoryName) => (
                 <div key={categoryName} className="category-section">
@@ -163,44 +172,24 @@ export default function Closet() {
                                         : ""
                                 }`}
                                 onClick={() => {
-                                    if (!isCreatingOutfit) {
+                                    if (!isCreatingOutfit)  {
                                         setSelectedItem(item);
                                         return;
                                     }
+                    
+                                    // 🟢 CREATE MODE (build outfit slowly)
+                                    setSelectedOutfitItems((prev) => {
+                                        const exists = prev.some(i => i._id === item._id);
                                 
-                                    const isEditMode = location?.state?.editMode === true;                                
-                                    // 🟡 CREATE MODE
-                                    if (!isEditMode) {
-                                        setSelectedOutfitItems((prev) => {
-                                            const exists = prev.find((i) => i._id === item._id);
+                                        if (exists) {
+                                            return prev.filter(i => i._id !== item._id);
+                                        }
                                 
-                                            let updated;
-                                
-                                            if (exists) {
-                                                updated = prev.filter((i) => i._id !== item._id);
-                                            } else {
-                                                updated = [
-                                                    ...prev.filter((i) => i.category !== item.category),
-                                                    item
-                                                ];
-                                            }
-                                
-                                            return updated;
-                                        });
-                                
-                                        return;
-                                    }
-                                
-                                    // 🔵 EDIT MODE
-                                    const updated = [
-                                        ...selectedOutfitItems.filter((i) => i.category !== item.category),
-                                        item
-                                    ];
-                                
-                                    setSelectedOutfitItems(updated);
-                                    localStorage.setItem("pendingOutfit", JSON.stringify(updated));
-                                
-                                    navigate("/outfit");
+                                        return [
+                                            ...prev.filter(i => i.category !== item.category),
+                                            item
+                                        ];
+                                    });
                                 }}
                                 style={{ cursor: "pointer" }}
                             >
