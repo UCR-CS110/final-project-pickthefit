@@ -119,14 +119,63 @@
   /* POSTS GRID */
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr); /* 3 posts per ROW */
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 1000px) {
+    .posts-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 650px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   .post {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+  
+    /* IMPORTANT: remove width */
     width: 100%;
-    aspect-ratio: 1 / 1;
-    background: #eee;
+    min-height: 350px; 
+    box-sizing: border-box;
+  }
+
+  /* .post-outfit-preview {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-direction: column;
+    flex-wrap: wrap;
+  } */
+  .post-outfit-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .post-accessories {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+  .post-outfit-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .post-accessories img,
+  .post-outfit-preview img {
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
     border-radius: 8px;
   }
 
@@ -245,7 +294,7 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 20px;
     background-color: rgb(128, 6, 61);
 }
 
@@ -326,4 +375,78 @@
   max-width: 1600px;
   margin: 0 auto;
   padding: 20px 40px;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  width: auto; /* prevents full-width button */
+  padding: 10px 16px;
+
+  background-color: rgb(128, 6, 61);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.accessory-layer {
+  position: absolute;
+  top: 120px;        /* adjust vertically */
+  left: -80px;       /* 👈 pushes it left of mannequin */
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.share-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+.share-panel {
+  width: 350px;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+}
+
+.share-panel input,
+.share-panel textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: "Cormorant Garamond", serif;
+}
+
+.share-panel button {
+  background-color: rgb(128, 6, 61);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.delete-post-button {
+  width: auto;
+  padding: 6px 12px;
+  margin-top: 10px;
+  background-color: rgb(128, 6, 61);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
 }
