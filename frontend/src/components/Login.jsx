@@ -38,7 +38,6 @@ export default function Login() {
                 <input id="password" type="password" placeholder="Password"/>
                 <button> Login </button>
           </form>
-          <br />
     
           <a href="/signup">   Signup </a>
         </div>
