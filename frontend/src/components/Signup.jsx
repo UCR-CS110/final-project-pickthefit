@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Signup() {
+  const navigate = useNavigate();
+
   async function signup(event) {
     event.preventDefault();
 
@@ -21,7 +25,7 @@ export default function Signup() {
 
       if (data.success) {
         alert("Signup successful!");
-        window.location.href = "/";
+        navigate("/");
       } else {
         alert(data.message || "Signup failed");
       }
@@ -42,6 +46,9 @@ export default function Signup() {
           <input id="password" type="password" placeholder="Password" />
           <button>Signup</button>
         </form>
+
+        <a href="/">   Login </a>
+
       </div>
     </div>
   );
