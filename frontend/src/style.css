@@ -519,3 +519,6 @@
   flex-direction: column;
   gap: 6px;
 }
+.suggest {
+  margin-top: 10px;
+}

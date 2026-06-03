@@ -17,7 +17,7 @@ export default function Home() {
     const [commentText, setCommentText] = useState("");
     const [replyText, setReplyText] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
-    
+    const [recommendations, setRecommendations] = useState([]);
     const [user, setUser] = useState(() =>
         JSON.parse(localStorage.getItem("user"))
       );
@@ -57,6 +57,12 @@ export default function Home() {
           setProfilePicture(user.profilePicture || "");
         }
       }, [user]);
+
+    useEffect(() => {
+        fetch(`http://localhost:5050/api/auth/recommend/users/${user._id}`)
+          .then(res => res.json())
+          .then(data => setRecommendations(data));
+      }, []);
 
     const userPosts = posts.filter(
         post => post.userId === user._id
@@ -573,6 +579,16 @@ export default function Home() {
                     </div>
                 ))
                 )}
+                <h4 className= "suggest">Suggested Users</h4>
+
+                {recommendations.map(u => (
+                <div key={u._id}>
+                    {u.username}
+                    <button className="editing-button suggest" onClick={() => handleFollow(u._id)}>
+                    Follow
+                    </button>
+                </div>
+                ))}
 
                 </div>
             </div>

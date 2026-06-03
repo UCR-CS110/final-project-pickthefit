@@ -211,4 +211,35 @@ router.post("/unfollow", async (req, res) => {
   }
 });
 
+router.get("/recommend/users/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  const following = user.following;
+
+  const secondDegree = await User.find({
+    _id: { $in: following }
+  }).populate("following");
+
+  let recommendations = [];
+
+  secondDegree.forEach(u => {
+    u.following.forEach(f => {
+      if (
+        f.toString() !== user._id.toString() &&
+        !following.includes(f.toString())
+      ) {
+        recommendations.push(f);
+      }
+    });
+  });
+
+  const unique = [...new Set(recommendations)];
+
+  const result = await User.find({
+    _id: { $in: unique }
+  }).select("_id username");
+
+  res.json(result);
+});
+
 export default router;
