@@ -85,12 +85,19 @@
   }
   
   /* HEADER */
+  /* .profile-header {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 40px;
+  } */
   .profile-header {
     display: flex;
     gap: 30px;
     align-items: center;
     margin-bottom: 40px;
-  }
+    position: relative;   /* important */
+}
   
   /* profile pic circle */
   .profile-pic {
@@ -184,6 +191,18 @@
     padding: 5px 10px;
     border-radius: 20px;
     background-color: rgb(128, 6, 61);
+  }
+
+  /* .stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  } */
+
+  .rightside-buttons {
+    margin-left: auto;   /* pushes to far right */
+    display: flex;
+    gap: 10px;
   }
   
   .clickable {
@@ -449,4 +468,31 @@
   color: white;
   border-radius: 8px;
   font-size: 14px;
+}
+.rightside-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  gap: 10px;
+}
+.editing-button {
+  width: auto;
+  padding: 6px 12px;
+  margin-top: 0;
+
+  font-size: 14px;
+  border-radius: 20px;
+  background-color: rgb(128, 6, 61);
+}
+.user-row-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.unfollow-btn {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 13px;
 }
