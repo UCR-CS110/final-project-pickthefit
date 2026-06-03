@@ -89,5 +89,70 @@ router.post("/:id/dislike", async (req, res) => {
     }
 });
 
+router.post("/:id/comment", async (req, res) => {
+    const { userId, username, text } = req.body;
+  
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+  
+    post.comments.push({
+    //   _id: new Date().getTime().toString(),
+      userId,
+      username,
+      text,
+      replies: [],
+      createdAt: new Date()
+    });
+  
+    await post.save();
+  
+    res.json(post); // 🔥 ALWAYS return full updated post
+  });
+
+  router.post("/:id/comment/reply", async (req, res) => {
+    const { commentId, userId, username, text } = req.body;
+  
+    const post = await Post.findById(req.params.id);
+  
+    const comment = post.comments.find(
+        c => c._id.toString() === commentId
+    );
+
+    comment.replies.push({
+    //   _id: new Date().getTime().toString(),
+      userId,
+      username,
+      text,
+      createdAt: new Date()
+    });
+  
+    await post.save();
+  
+    res.json(post);
+  });
+
+  router.delete("/:postId/comment/:commentId/reply/:replyId", async (req, res) => {
+    const post = await Post.findById(req.params.postId);
+  
+    const comment = post.comments.id(req.params.commentId);
+  
+    comment.replies = comment.replies.filter(
+      r => r._id.toString() !== req.params.replyId
+    );
+  
+    await post.save();
+    res.json(post);
+  });
+
+  router.delete("/:postId/comment/:commentId", async (req, res) => {
+    const post = await Post.findById(req.params.postId);
+  
+    post.comments = post.comments.filter(
+      c => c._id.toString() !== req.params.commentId
+    );
+  
+    await post.save();
+    res.json(post);
+  });
 
 export default router;

@@ -12,13 +12,22 @@ export default function Home() {
     const [editingBio, setEditingBio] = useState(false);
     const [editBioOpen, setEditBioOpen] = useState(false);
     const [editPicOpen, setEditPicOpen] = useState(false);
+    const [commentPanelOpen, setCommentPanelOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [commentText, setCommentText] = useState("");
+    const [replyText, setReplyText] = useState("");
+    const [replyingTo, setReplyingTo] = useState(null);
     
-    const user = JSON.parse(localStorage.getItem("user"));
+    const [user, setUser] = useState(() =>
+        JSON.parse(localStorage.getItem("user"))
+      );
+    // const user = JSON.parse(localStorage.getItem("user"));
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
     const [bio, setBio] = useState(user.bio || "");
     const [profilePicture, setProfilePicture] = useState(user.profilePicture || "");
-    
+    // const profilePicture = user?.profilePicture;
+
     useEffect(() => {
         fetch("http://localhost:5050/api/posts")
           .then(res => res.json())
@@ -39,6 +48,13 @@ export default function Home() {
     useEffect(() => {
         if (user) {
           setBioText(user.bio || "");
+        }
+      }, [user]);
+    
+    useEffect(() => {
+        if (user) {
+        //   setBio(user.bio || "");
+          setProfilePicture(user.profilePicture || "");
         }
       }, [user]);
 
@@ -85,11 +101,13 @@ export default function Home() {
       
         const updatedUser = await res.json();
       
+        // 🔥 UPDATE BOTH
+        // setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
       
         setEditBioOpen(false);
         setEditPicOpen(false);
-      };
+    };
 
     const handleLogout = () => {
         localStorage.removeItem("user");
@@ -112,30 +130,6 @@ export default function Home() {
         setSearchResults(data);
     };
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-      
-        if (!file) return;
-      
-        const imageUrl = URL.createObjectURL(file);
-        setProfilePicture(imageUrl);
-      };
-    // const saveBio = async () => {
-    //     const res = await fetch("http://localhost:5050/api/auth/bio", {
-    //       method: "PUT",
-    //       headers: {
-    //         "Content-Type": "application/json"
-    //       },
-    //       body: JSON.stringify({
-    //         userId: user._id,
-    //         bio: bioText
-    //       })
-    //     });
-      
-    //     const updated = await res.json();
-    //     setUser(updated);
-    //     setEditingBio(false);
-    //   };
     const handleUnfollow = async (targetUserId) => {
         await fetch("http://localhost:5050/api/auth/unfollow", {
           method: "POST",
@@ -240,7 +234,12 @@ export default function Home() {
         {/* Posts grid */}
         <div className="posts-grid">
             {userPosts.map((post) => (
-                <div key={post._id} className="post">
+                <div key={post._id} className="post"
+                    onClick={() => {
+                    setSelectedPost(post);
+                    setCommentPanelOpen(true);
+                    }}
+                >
                 <h3>{post.name}</h3>
                 <p>{post.description}</p>
                 
@@ -334,15 +333,181 @@ export default function Home() {
         {editPicOpen && (
             <div className="modal">
                 <input
-                type="file"
-                accept="image/*"
                 value={profilePicture}
-                onChange= {handleImageUpload}
+                onChange={(e) => setProfilePicture(e.target.value)}
+                placeholder="Paste image URL"
                 />
 
                 <button className="closet-button" onClick={handleUpdateProfile}>
                 Save Picture
                 </button>
+            </div>
+        )}
+  
+        {commentPanelOpen && selectedPost && (
+            <div className="home-overlay" onClick={() => setCommentPanelOpen(false)}>
+                <div className="sidebar" onClick={(e) => e.stopPropagation()}>
+
+                <h2>Comments</h2>
+
+                {/* COMMENT LIST */}
+                {selectedPost.comments?.map(comment => (
+                    <div key={comment._id}>
+
+                    <strong>{comment.username}</strong>
+                    <p>{comment.text}</p>
+
+                    {comment.userId === user._id && (
+                        <button className = "editing-button"
+                    
+                            onClick={async (e) => {
+                            e.stopPropagation();
+
+                            const res = await fetch(
+                                `http://localhost:5050/api/posts/${selectedPost._id}/comment/${comment._id}`,
+                                {
+                                method: "DELETE",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ userId: user._id })
+                                }
+                            );
+
+                            const updated = await res.json();
+
+                            setPosts(prev =>
+                                prev.map(p => (p._id === updated._id ? updated : p))
+                            );
+
+                            setSelectedPost(updated);
+                            }}
+                        >
+                            Delete
+                        </button>
+                    )}
+
+                    {/* replies */}
+                    <div style={{ marginLeft: "15px" }}>
+                        {comment.replies?.map(reply => (
+                        <div key={reply._id}>
+                            <strong>{reply.username}</strong>: {reply.text}
+                            
+                            {reply.userId === user._id && (
+                                <button className="editing-button"
+                                    onClick={async (e) => {
+                                    e.stopPropagation();
+
+                                    const res = await fetch(
+                                        `http://localhost:5050/api/posts/${selectedPost._id}/comment/${comment._id}/reply/${reply._id}`,
+                                        {
+                                        method: "DELETE",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ userId: user._id })
+                                        }
+                                    );
+
+                                    const updated = await res.json();
+
+                                    setPosts(prev =>
+                                        prev.map(p => (p._id === updated._id ? updated : p))
+                                    );
+
+                                    setSelectedPost(updated);
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                                )}
+                        </div>
+                        ))}
+                    </div>
+
+                    {/* reply button */}
+                    <button className="editing-button"
+                        onClick={() => setReplyingTo(comment._id)}
+                    >
+                        Reply
+                    </button>
+
+                    {replyingTo === comment._id && (
+                        <div>
+                        <input
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            placeholder="Reply..."
+                        />
+                        <button className="closet-button"
+                            onClick={async () => {
+                            const res = await fetch(
+                                `http://localhost:5050/api/posts/${selectedPost._id}/comment/reply`,
+                                {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    commentId: comment._id,
+                                    userId: user._id,
+                                    username: user.username,
+                                    text: replyText
+                                })
+                                }
+                            );
+
+                            const updated = await res.json();
+
+                            setPosts(prev =>
+                            prev.map(p =>
+                                p._id === updated._id ? updated : p
+                            )
+                            );
+
+                            setSelectedPost(updated);
+                            setReplyText("");
+                            setReplyingTo(null);
+                            }}
+                        >
+                            Send
+                        </button>
+                        </div>
+                    )}
+                    </div>
+                ))}
+
+                {/* ADD COMMENT */}
+                <input
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                    placeholder="Write a comment..."
+                />
+
+                <button className="closet-button"
+                    onClick={async () => {
+                    const res = await fetch(
+                        `http://localhost:5050/api/posts/${selectedPost._id}/comment`,
+                        {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            userId: user._id,
+                            username: user.username,
+                            text: commentText
+                        })
+                        }
+                    );
+
+                    const updated = await res.json();
+
+                    setPosts(prev =>
+                    prev.map(p =>
+                        p._id === updated._id ? updated : p
+                    )
+                    );
+
+                    setSelectedPost(updated);
+                    setCommentText("");
+                    }}
+                >
+                    Post
+                </button>
+                </div>
             </div>
         )}
 

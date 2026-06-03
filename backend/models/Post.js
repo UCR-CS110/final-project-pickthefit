@@ -19,7 +19,22 @@ const PostSchema = new mongoose.Schema({
     createdAt: {
       type: Date,
       default: Date.now
-    }
+    },
+
+    comments: [
+        {
+          userId: String,
+          username: String,
+          text: String,
+          replies: [
+            {
+              userId: String,
+              username: String,
+              text: String
+            }
+          ]
+        }
+      ]
   });
 
 export default mongoose.model("Post", PostSchema);
