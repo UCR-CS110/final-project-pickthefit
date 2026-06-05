@@ -1,4 +1,5 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import Admin from "./pages/Admin";
 
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/closet" element={<Closet />} />
         <Route path="/outfit" element={<Outfit />} />
         <Route path="/user/:id" element={<UserProfile />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
