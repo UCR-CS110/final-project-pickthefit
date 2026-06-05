@@ -11,6 +11,7 @@ export default function Closet() {
 
     const navigate = useNavigate();
     const location = useLocation();
+
     // item upload form
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -44,12 +45,14 @@ export default function Closet() {
     useEffect(() => {
         fetchClothes();
     }, []);
+
     useEffect(() => {
         const isEditMode = location.state?.editMode === true;
-    
+
         if (isEditMode) {
             const saved =
                 JSON.parse(localStorage.getItem("pendingOutfit")) || [];
+
             setSelectedOutfitItems(saved);
             setIsCreatingOutfit(true);
         } else {
@@ -140,18 +143,22 @@ export default function Closet() {
 
     return (
         <div className="closet-container">
+
             <div>
-                <button className="back-button"
+                <button
+                    className="back-button"
                     onClick={() => navigate("/home")}
                 >
-                Back to Home
+                    Back to Home
                 </button>
             </div>
+
             <h1 className="closet-title">My Closet</h1>
-            
+
             {/* clothes for each category */}
             {categories.map((categoryName) => (
                 <div key={categoryName} className="category-section">
+
                     <h2 className="category-title">
                         {categoryName}
                     </h2>
@@ -165,44 +172,52 @@ export default function Closet() {
                             )
                             .map((item) => (
                                 <div
-                                key={item._id}
-                                className={`clothing-card ${
-                                    selectedOutfitItems.find((i) => i._id === item._id)
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                onClick={() => {
-                                    if (!isCreatingOutfit)  {
-                                        setSelectedItem(item);
-                                        return;
-                                    }
-                    
-                                    // 🟢 CREATE MODE (build outfit slowly)
-                                    setSelectedOutfitItems((prev) => {
-                                        const exists = prev.some(i => i._id === item._id);
-                                
-                                        if (exists) {
-                                            return prev.filter(i => i._id !== item._id);
+                                    key={item._id}
+                                    className={`clothing-card ${
+                                        selectedOutfitItems.find(
+                                            (i) => i._id === item._id
+                                        )
+                                            ? "selected"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        if (!isCreatingOutfit) {
+                                            setSelectedItem(item);
+                                            return;
                                         }
-                                
-                                        return [
-                                            ...prev.filter(i => i.category !== item.category),
-                                            item
-                                        ];
-                                    });
-                                }}
-                                style={{ cursor: "pointer" }}
-                            >
-                                {/* IMAGE */}
-                                {item.imageUrl ? (
-                                    <img
-                                        src={item.imageUrl}
-                                        alt={item.name}
-                                        className="clothing-image"
-                                    />
-                                ) : (
-                                    <div className="clothing-image" />
-                                )}
+
+                                        // 🟢 CREATE MODE
+                                        setSelectedOutfitItems((prev) => {
+                                            const exists = prev.some(
+                                                i => i._id === item._id
+                                            );
+
+                                            if (exists) {
+                                                return prev.filter(
+                                                    i => i._id !== item._id
+                                                );
+                                            }
+
+                                            return [
+                                                ...prev.filter(
+                                                    i => i.category !== item.category
+                                                ),
+                                                item
+                                            ];
+                                        });
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                >
+
+                                    {item.imageUrl ? (
+                                        <img
+                                            src={item.imageUrl}
+                                            alt={item.name}
+                                            className="clothing-image"
+                                        />
+                                    ) : (
+                                        <div className="clothing-image" />
+                                    )}
 
                                     <p>{item.name}</p>
                                 </div>
@@ -213,6 +228,7 @@ export default function Closet() {
 
             {/* upload button */}
             <div className="upload-section">
+
                 <button
                     className="upload-button"
                     onClick={() => setShowUpload(true)}
@@ -221,18 +237,19 @@ export default function Closet() {
                 </button>
 
                 <button
-                className="upload-button"
-                onClick={() => {setIsCreatingOutfit(true); 
-                    setSelectedOutfitItems([]); // IMPORTANT: start fresh
-                    setSelectedItem(null);
-                }}
-
+                    className="upload-button"
+                    onClick={() => {
+                        setIsCreatingOutfit(true);
+                        setSelectedOutfitItems([]);
+                        setSelectedItem(null);
+                    }}
                 >
                     Create Outfit
                 </button>
+
             </div>
 
-            {/* upload */}
+            {/* upload modal */}
             {showUpload && (
                 <div
                     className="modal-overlay"
@@ -302,7 +319,7 @@ export default function Closet() {
                 </div>
             )}
 
-            {/* delete popup */}
+            {/* delete modal */}
             {selectedItem && (
                 <div
                     className="modal-overlay"
@@ -325,9 +342,7 @@ export default function Closet() {
                         <p>{selectedItem.description}</p>
 
                         <div className="modal-buttons">
-                            <button
-                                onClick={handleDelete}
-                            >
+                            <button onClick={handleDelete}>
                                 Delete
                             </button>
 
@@ -344,36 +359,39 @@ export default function Closet() {
             )}
 
             {isCreatingOutfit && (
-            <div className="upload-section">
-                <button
-                className="upload-button"
-                onClick={() => {
-                    const outfit = selectedOutfitItems;
-                
-                    localStorage.setItem(
-                        "pendingOutfit",
-                        JSON.stringify(outfit)
-                    );
-                
-                    console.log("SAVED OUTFIT:", outfit);
-                
-                    navigate("/outfit");
-                }}
-                >
-                Done
-                </button>
+                <div className="upload-section">
 
-                <button
-                    className="upload-button"
-                    onClick={() => {
-                        setIsCreatingOutfit(false);
-                        setSelectedOutfitItems([]);
-                    }}
-                >
-                    Cancel
-                </button>
-            </div>
+                    <button
+                        className="upload-button"
+                        onClick={() => {
+                            const outfit = selectedOutfitItems;
+
+                            localStorage.setItem(
+                                "pendingOutfit",
+                                JSON.stringify(outfit)
+                            );
+
+                            console.log("SAVED OUTFIT:", outfit);
+
+                            navigate("/outfit");
+                        }}
+                    >
+                        Done
+                    </button>
+
+                    <button
+                        className="upload-button"
+                        onClick={() => {
+                            setIsCreatingOutfit(false);
+                            setSelectedOutfitItems([]);
+                        }}
+                    >
+                        Cancel
+                    </button>
+
+                </div>
             )}
+
         </div>
     );
 }
