@@ -9,7 +9,7 @@
   /* Center the page */
   body {
     min-height: 100vh;
-    background-color: #e56b94;
+    background-color: #f88cb0;
   }
   
   /* Login container */
@@ -51,7 +51,10 @@
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background-color: #e56b94;
+    /* background-color: #e56b94; */
+    /* background-color: #f88cb0; */
+    background-color: rgb(128, 6, 61);
+
     color: white;
     border: none;
     border-radius: 6px;
@@ -68,7 +71,9 @@
   a {
     display: block;
     margin-top: 15px;
-    color: #e56b94;
+    /* color: #e56b94; */
+    color: rgb(128, 6, 61);
+
     text-decoration: none;
     font-family: "Cormorant Garamond", serif;
     font-size: 20px;
@@ -152,6 +157,7 @@
     width: 100%;
     min-height: 350px; 
     box-sizing: border-box;
+    border: 2.5px solid rgb(128, 6, 61); /* added */
   }
 
   /* .post-outfit-preview {
@@ -436,7 +442,8 @@
 .share-panel {
   width: 350px;
   height: 100%;
-  background: white;
+  /* background: white; */
+  background: rgb(232, 210, 219);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -506,6 +513,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border: 2.5px solid rgb(128, 6, 61); /* added */
 }
 
 /* THIS is what makes the image fit properly */
@@ -514,10 +523,29 @@
   height: 100%;
   object-fit: cover;   /* IMPORTANT */
 }
-.comment-row {
+/* .comment-row {
   display: flex;
   flex-direction: column;
   gap: 6px;
+} */
+.comment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.comment-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-actions {
+  display: flex;
+  flex-direction: column;  /* 🔥 THIS stacks them */
+  gap: 6px;
+  align-items: flex-end;   /* pushes buttons to right edge */
 }
 .suggest {
   margin-top: 10px;

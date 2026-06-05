@@ -33,7 +33,11 @@ export default function UserProfile() {
 
       {/* HEADER */}
       <div className="profile-header">
-        <div className="profile-pic" />
+        <div className="profile-pic" >
+            {user.profilePicture && (
+                <img src={user.profilePicture} alt="pfp" />
+            )}
+        </div>
 
         <div className="profile-info">
           <h1>{user.username}</h1>
@@ -109,7 +113,7 @@ export default function UserProfile() {
           
             <div className="like-bar">
             <button
-                onClick={async () => {
+                onClick={async (e) => { e.stopPropagation();
                 const res = await fetch(
                     `http://localhost:5050/api/posts/${post._id}/like`,
                     {
@@ -132,7 +136,7 @@ export default function UserProfile() {
             </button>
 
             <button
-                onClick={async () => {
+                onClick={async (e) => { e.stopPropagation();
                 const res = await fetch(
                     `http://localhost:5050/api/posts/${post._id}/dislike`,
                     {

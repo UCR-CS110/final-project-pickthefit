@@ -227,7 +227,6 @@ export default function Closet() {
                     setSelectedItem(null);
                 }}
 
-                // style={{ marginTop: "10px", backgroundColor: "#333" }}
                 >
                     Create Outfit
                 </button>
@@ -328,10 +327,6 @@ export default function Closet() {
                         <div className="modal-buttons">
                             <button
                                 onClick={handleDelete}
-                                style={{
-                                    backgroundColor: "red",
-                                    color: "white"
-                                }}
                             >
                                 Delete
                             </button>
@@ -370,7 +365,6 @@ export default function Closet() {
 
                 <button
                     className="upload-button"
-                    // style={{ backgroundColor: "rgb(128, 6, 61)" }}
                     onClick={() => {
                         setIsCreatingOutfit(false);
                         setSelectedOutfitItems([]);
