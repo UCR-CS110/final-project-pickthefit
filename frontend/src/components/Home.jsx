@@ -275,7 +275,7 @@ export default function Home() {
                     </div>
                     <button
                         className="delete-post-button"
-                        onClick={() => handleDeletePost(post._id)}
+                        onClick={(e) => {e.stopPropagation(); handleDeletePost(post._id);}}
                     >
                         Delete
                     </button>
@@ -284,7 +284,7 @@ export default function Home() {
 
                 <div className="like-bar">
                     <button
-                    onClick={async () => {
+                    onClick={async (e) => { e.stopPropagation(); 
                         const res = await fetch(`http://localhost:5050/api/posts/${post._id}/like`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -302,7 +302,7 @@ export default function Home() {
                     </button>
 
                     <button
-                    onClick={async () => {
+                    onClick={async (e) => { e.stopPropagation(); 
                         const res = await fetch(`http://localhost:5050/api/posts/${post._id}/dislike`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -358,43 +358,46 @@ export default function Home() {
 
                 {/* COMMENT LIST */}
                 {selectedPost.comments?.map(comment => (
-                    <div key={comment._id}>
+                    <div key={comment._id} className="comment-row">
+                    <div classname="comment-main">
+                        <strong>{comment.username}</strong>
+                        <p>{comment.text}</p>
+                    </div>
+                    <div className="comment-actions">
+                        {comment.userId === user._id && (
+                            <button className = "editing-button"
+                        
+                                onClick={async (e) => {
+                                e.stopPropagation();
 
-                    <strong>{comment.username}</strong>
-                    <p>{comment.text}</p>
+                                const res = await fetch(
+                                    `http://localhost:5050/api/posts/${selectedPost._id}/comment/${comment._id}`,
+                                    {
+                                    method: "DELETE",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ userId: user._id })
+                                    }
+                                );
 
-                    {comment.userId === user._id && (
-                        <button className = "editing-button"
+                                const updated = await res.json();
+
+                                setPosts(prev =>
+                                    prev.map(p => (p._id === updated._id ? updated : p))
+                                );
+
+                                setSelectedPost(updated);
+                                }}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
                     
-                            onClick={async (e) => {
-                            e.stopPropagation();
-
-                            const res = await fetch(
-                                `http://localhost:5050/api/posts/${selectedPost._id}/comment/${comment._id}`,
-                                {
-                                method: "DELETE",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ userId: user._id })
-                                }
-                            );
-
-                            const updated = await res.json();
-
-                            setPosts(prev =>
-                                prev.map(p => (p._id === updated._id ? updated : p))
-                            );
-
-                            setSelectedPost(updated);
-                            }}
-                        >
-                            Delete
-                        </button>
-                    )}
 
                     {/* replies */}
-                    <div style={{ marginLeft: "15px" }}>
+                    <div>
                         {comment.replies?.map(reply => (
-                        <div key={reply._id}>
+                        <div key={reply._id} className="comment-row">
                             <strong>{reply.username}</strong>: {reply.text}
                             
                             {reply.userId === user._id && (
@@ -423,6 +426,7 @@ export default function Home() {
                                     Delete
                                 </button>
                                 )}
+                                
                         </div>
                         ))}
                     </div>
@@ -582,7 +586,7 @@ export default function Home() {
                 <h4 className= "suggest">Suggested Users</h4>
 
                 {recommendations.map(u => (
-                <div key={u._id}>
+                <div key={u._id} className="user-row user-row-flex">
                     {u.username}
                     <button className="editing-button suggest" onClick={() => handleFollow(u._id)}>
                     Follow
