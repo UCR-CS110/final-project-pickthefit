@@ -8,8 +8,6 @@ export default function Home() {
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [bioText, setBioText] = useState("");
-    const [editingBio, setEditingBio] = useState(false);
     const [editBioOpen, setEditBioOpen] = useState(false);
     const [editPicOpen, setEditPicOpen] = useState(false);
     const [commentPanelOpen, setCommentPanelOpen] = useState(false);
@@ -18,15 +16,15 @@ export default function Home() {
     const [replyText, setReplyText] = useState("");
     const [replyingTo, setReplyingTo] = useState(null);
     const [recommendations, setRecommendations] = useState([]);
-    const [user, setUser] = useState(() =>
+    const [user] = useState(() =>
         JSON.parse(localStorage.getItem("user"))
       );
-    // const user = JSON.parse(localStorage.getItem("user"));
+    
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
     const [bio, setBio] = useState(user.bio || "");
     const [profilePicture, setProfilePicture] = useState(user.profilePicture || "");
-    // const profilePicture = user?.profilePicture;
+ 
 
     useEffect(() => {
         fetch("http://localhost:5050/api/posts")
@@ -45,18 +43,6 @@ export default function Home() {
           });
       }, []);
 
-    useEffect(() => {
-        if (user) {
-          setBioText(user.bio || "");
-        }
-      }, [user]);
-    
-    useEffect(() => {
-        if (user) {
-        //   setBio(user.bio || "");
-          setProfilePicture(user.profilePicture || "");
-        }
-      }, [user]);
 
     useEffect(() => {
         fetch(`http://localhost:5050/api/auth/recommend/users/${user._id}`)
