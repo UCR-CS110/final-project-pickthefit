@@ -38,13 +38,13 @@ export default function Outfit() {
   );
 
   const handlePost = async () => {
-    const user = JSON.parse(localStorage.getItem("user")); // ADD THIS
+    const user = JSON.parse(localStorage.getItem("user")); 
   
     const newPost = {
       name: outfitName,
       description: outfitDescription,
       items: items,
-      userId: user._id, // ✅ THIS IS WHAT YOU'RE MISSING
+      userId: user._id, 
       createdAt: new Date()
     };
   
@@ -75,7 +75,7 @@ export default function Outfit() {
       <h1 className="closet-title"> Your Outfit</h1>
       
       <div className="mannequin">
-        {/* SHIRT */}
+        {/* shirt */}
         <div className="top-layer">
           {shirts.map(item => (
             <img key={item._id} src={item.imageUrl} />
@@ -88,14 +88,14 @@ export default function Outfit() {
           ))}
         </div>
 
-        {/* PANTS */}
+        {/* pants */}
         <div className="bottom-layer">
           {pants.map(item => (
             <img key={item._id} src={item.imageUrl} />
           ))}
         </div>
 
-        {/* SHOES */}
+        {/* shoes */}
         <div className="shoe-layer">
           {shoes.map(item => (
             <img key={item._id} src={item.imageUrl} />

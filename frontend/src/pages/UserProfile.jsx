@@ -31,7 +31,7 @@ export default function UserProfile() {
   return (
     <div className="profile-container">
 
-      {/* HEADER */}
+      {/* header */}
       <div className="profile-header">
         <div className="profile-pic" >
             {user.profilePicture && (
@@ -56,7 +56,7 @@ export default function UserProfile() {
             </div>
           </div>
 
-          {/* ✅ BIO ADDED */}
+          {/* bio */}
           <p className="bio">
             {user.bio || "no bio yet"}
           </p>
@@ -72,7 +72,7 @@ export default function UserProfile() {
         </div>
       </div>
 
-      {/* POSTS GRID (MATCHES HOME EXACTLY) */}
+      {/* posts grid */}
       <div className="posts-grid">
         {posts.map((post) => (
           <div key={post._id} className="post"
@@ -87,7 +87,7 @@ export default function UserProfile() {
 
             <div className="post-outfit-wrapper">
 
-              {/* LEFT: outfit */}
+              {/* left outfit */}
               <div className="post-outfit-preview">
                 {[...post.items]
                   .filter(i => i.category !== "accessories")
@@ -100,7 +100,7 @@ export default function UserProfile() {
                   ))}
               </div>
 
-              {/* RIGHT: accessories */}
+              {/* right accessories */}
               <div className="post-accessories">
                 {post.items
                   .filter(i => i.category === "accessories")
@@ -167,7 +167,7 @@ export default function UserProfile() {
 
                     <h2>Comments</h2>
 
-                    {/* COMMENTS */}
+                    {/* comments */}
                     {selectedPost.comments?.map((comment) => (
                         <div key={comment._id}>
 
@@ -287,7 +287,7 @@ export default function UserProfile() {
                         </div>
                     ))}
 
-                    {/* ADD COMMENT */}
+                    {/* add comment */}
                     <input
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}

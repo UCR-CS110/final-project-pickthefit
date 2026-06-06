@@ -3,7 +3,7 @@ import Post from "../models/Post.js";
 
 const router = express.Router();
 
-/* CREATE POST */
+/* create post */
 router.post("/", async (req, res) => {
   try {
     const newPost = new Post(req.body);
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-/* GET ALL POSTS (for home page feed) */
+/* get all post */
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.find().sort({ createdAt: -1 });
@@ -96,7 +96,6 @@ router.post("/:id/comment", async (req, res) => {
     if (!post) return res.status(404).json({ message: "Post not found" });
   
     post.comments.push({
-    //   _id: new Date().getTime().toString(),
       userId,
       username,
       text,
@@ -106,7 +105,7 @@ router.post("/:id/comment", async (req, res) => {
   
     await post.save();
   
-    res.json(post); // 🔥 ALWAYS return full updated post
+    res.json(post);
   });
 
   router.post("/:id/comment/reply", async (req, res) => {
@@ -119,7 +118,6 @@ router.post("/:id/comment", async (req, res) => {
     );
 
     comment.replies.push({
-    //   _id: new Date().getTime().toString(),
       userId,
       username,
       text,
