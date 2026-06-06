@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: Arial, sans-serif; */
   }
   
   /* Center the page */
@@ -32,7 +31,6 @@
   h1 {
     margin-bottom: 20px;
     font-family: "Playfair Display", serif;
-    /* font-family: "Cormorant Garamond", serif; */
   }
   
   /* Inputs */
@@ -51,8 +49,6 @@
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    /* background-color: #e56b94; */
-    /* background-color: #f88cb0; */
     background-color: rgb(128, 6, 61);
 
     color: white;
@@ -71,7 +67,6 @@
   a {
     display: block;
     margin-top: 15px;
-    /* color: #e56b94; */
     color: rgb(128, 6, 61);
 
     text-decoration: none;
@@ -89,19 +84,12 @@
     font-family: "Playfair Display", serif;
   }
   
-  /* HEADER */
-  /* .profile-header {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-    margin-bottom: 40px;
-  } */
   .profile-header {
     display: flex;
     gap: 30px;
     align-items: center;
     margin-bottom: 40px;
-    position: relative;   /* important */
+    position: relative;  
 }
   
   /* profile pic circle */
@@ -131,7 +119,7 @@
   /* POSTS GRID */
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 posts per ROW */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
     align-items: start;
   }
@@ -152,21 +140,12 @@
     background: white;
     padding: 15px;
     border-radius: 15px;
-  
-    /* IMPORTANT: remove width */
     width: 100%;
     min-height: 350px; 
     box-sizing: border-box;
-    border: 2.5px solid rgb(128, 6, 61); /* added */
+    border: 2.5px solid rgb(128, 6, 61); 
   }
 
-  /* .post-outfit-preview {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-    flex-direction: column;
-    flex-wrap: wrap;
-  } */
   .post-outfit-preview {
     display: flex;
     flex-direction: column;
@@ -199,14 +178,8 @@
     background-color: rgb(128, 6, 61);
   }
 
-  /* .stats {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  } */
-
   .rightside-buttons {
-    margin-left: auto;   /* pushes to far right */
+    margin-left: auto;   
     display: flex;
     gap: 10px;
   }
@@ -407,7 +380,7 @@
   top: 20px;
   left: 20px;
 
-  width: auto; /* prevents full-width button */
+  width: auto;
   padding: 10px 16px;
 
   background-color: rgb(128, 6, 61);
@@ -419,8 +392,8 @@
 
 .accessory-layer {
   position: absolute;
-  top: 120px;        /* adjust vertically */
-  left: -80px;       /* 👈 pushes it left of mannequin */
+  top: 120px;        
+  left: -80px;       
 
   display: flex;
   flex-direction: column;
@@ -442,7 +415,6 @@
 .share-panel {
   width: 350px;
   height: 100%;
-  /* background: white; */
   background: rgb(232, 210, 219);
   padding: 20px;
   display: flex;
@@ -508,26 +480,21 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  overflow: hidden;   /* IMPORTANT */
+  overflow: hidden;   
   background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 2.5px solid rgb(128, 6, 61); /* added */
+  border: 2.5px solid rgb(128, 6, 61); 
 }
 
-/* THIS is what makes the image fit properly */
 .profile-pic img {
   width: 100%;
   height: 100%;
-  object-fit: cover;   /* IMPORTANT */
+  object-fit: cover;   
 }
-/* .comment-row {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-} */
+
 .comment-row {
   display: flex;
   justify-content: space-between;
@@ -543,9 +510,9 @@
 
 .comment-actions {
   display: flex;
-  flex-direction: column;  /* 🔥 THIS stacks them */
+  flex-direction: column;  
   gap: 6px;
-  align-items: flex-end;   /* pushes buttons to right edge */
+  align-items: flex-end;   
 }
 .suggest {
   margin-top: 10px;

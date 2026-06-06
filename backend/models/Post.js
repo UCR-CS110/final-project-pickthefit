@@ -7,12 +7,12 @@ const PostSchema = new mongoose.Schema({
     userId: String,
   
     likes: {
-      type: [String], // userIds who liked
+      type: [String], 
       default: []
     },
   
     dislikes: {
-      type: [String], // userIds who disliked
+      type: [String], 
       default: []
     },
   

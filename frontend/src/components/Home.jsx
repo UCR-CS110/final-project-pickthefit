@@ -33,22 +33,24 @@ export default function Home() {
       }, []);
 
     useEffect(() => {
-        fetch(
-          `http://localhost:5050/api/auth/${user._id}`
-        )
-          .then(res => res.json())
-          .then(data => {
+        if (!user?._id) return;
+
+        fetch(`http://localhost:5050/api/auth/${user._id}`)
+        .then(res => res.json())
+        .then(data => {
             setFollowers(data.followers);
             setFollowing(data.following);
-          });
-      }, []);
+        });
+    }, [user?._id]);
 
 
     useEffect(() => {
+        if (!user?._id) return;
+
         fetch(`http://localhost:5050/api/auth/recommend/users/${user._id}`)
-          .then(res => res.json())
-          .then(data => setRecommendations(data));
-      }, []);
+        .then(res => res.json())
+        .then(data => setRecommendations(data));
+    }, [user?._id]);
 
     const userPosts = posts.filter(
         post => post.userId === user._id
@@ -92,9 +94,6 @@ export default function Home() {
         );
       
         const updatedUser = await res.json();
-      
-        // 🔥 UPDATE BOTH
-        // setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
       
         setEditBioOpen(false);
@@ -238,7 +237,7 @@ export default function Home() {
                 
                 <div className="post-outfit-wrapper">
     
-                    {/* LEFT SIDE: outfit (shirt/pants/shoes) */}
+                    {/* outfit (shirt/pants/shoes) */}
                     <div className="post-outfit-preview">
                         {[...post.items]
                             .filter(i => i.category !== "accessories")
@@ -251,7 +250,7 @@ export default function Home() {
                             ))}
                     </div>
 
-                    {/* RIGHT SIDE: accessories */}
+                    {/* accessories */}
                     <div className="post-accessories">
                         {post.items
                             .filter(i => i.category === "accessories")
@@ -342,7 +341,7 @@ export default function Home() {
 
                 <h2>Comments</h2>
 
-                {/* COMMENT LIST */}
+                {/* comment list */}
                 {selectedPost.comments?.map(comment => (
                     <div key={comment._id} className="comment-row">
                     <div classname="comment-main">
@@ -467,7 +466,7 @@ export default function Home() {
                     </div>
                 ))}
 
-                {/* ADD COMMENT */}
+                {/* add comment */}
                 <input
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
@@ -525,12 +524,11 @@ export default function Home() {
 
                 <div className="list">
 
-                {/* SEARCH MODE */}
+                {/* search mode */}
                 {searchTerm.length > 0 ? (
                 searchResults.length > 0 ? (
                     searchResults.map((person) => (
                     <div key={person._id} className="user-row"
-                    // onClick={() => navigate(`/user/${person._id}`)}
                     >
                         {person.username}
                     
@@ -548,7 +546,7 @@ export default function Home() {
                     <p>No users found</p>
                 )
                 ) : (
-                /* FOLLOWERS / FOLLOWING MODE */
+                /* followers and following */
                 (panelType === "followers" ? followers : following).map((person) => (
                     <div key={person._id} className="user-row user-row-flex"
                     onClick={() => navigate(`/user/${person._id}`)} 

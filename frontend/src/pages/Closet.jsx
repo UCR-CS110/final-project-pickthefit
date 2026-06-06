@@ -56,7 +56,7 @@ export default function Closet() {
             setSelectedOutfitItems(saved);
             setIsCreatingOutfit(true);
         } else {
-            setSelectedOutfitItems([]); // IMPORTANT: no auto selection in create mode
+            setSelectedOutfitItems([]); 
             setIsCreatingOutfit(false);
         }
     }, [location.state]);
@@ -186,7 +186,7 @@ export default function Closet() {
                                             return;
                                         }
 
-                                        // 🟢 CREATE MODE
+                                        // create mode
                                         setSelectedOutfitItems((prev) => {
                                             const exists = prev.some(
                                                 i => i._id === item._id
