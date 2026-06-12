@@ -2,6 +2,11 @@
 
 A fashion application where users can manage their personalized digital closet.  
 
+<p>
+  <img src="https://github.com/user-attachments/assets/67894e02-6472-41bc-9e2e-879774ca2733" width="300" />
+  <img src="https://github.com/user-attachments/assets/4045b801-d4a4-4419-a3ca-4e9e23dafcd7" width="300" />
+  <img src="https://github.com/user-attachments/assets/9aab0cea-454d-4ee3-a88d-dedab0610595" width="500" />
+</p>
 ---
 
 ## Project Description
@@ -27,8 +32,8 @@ A fashion application where users can manage their personalized digital closet.
 
 ## Tools
 
-Frontend: React.js, React Router DOM, JavaScript, HTML/CSS
-Backend: Node.js, Express.js, MongoDB + Mongoose, bcrypt, CORS
+- Frontend: React.js, React Router DOM, JavaScript, HTML/CSS
+- Backend: Node.js, Express.js, MongoDB + Mongoose, bcrypt, CORS
 
 ## Deployment steps
 1. git clone repository
