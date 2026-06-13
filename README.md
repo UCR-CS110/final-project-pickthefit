@@ -42,3 +42,6 @@ A fashion application where users can manage their personalized digital closet.
 4. navigate to frontend directory; run: npm install
 5. run: npm run dev
 6. open the local host link
+
+## AI Disclaimer
+AI was used to assist in debugging and understanding how to effectively use frontend and backend tools.
